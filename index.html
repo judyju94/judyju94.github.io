@@ -49,87 +49,168 @@
         .open .toggle-btn {
             transform: rotate(90deg);
         }
+        .tab-btn.active {
+            border-bottom-color: #3b82f6;
+            color: #2563eb;
+        }
+        .report-section strong {
+            color: #1f2937;
+        }
     </style>
 </head>
 <body class="text-gray-800">
 
     <div class="container mx-auto p-4 sm:p-6">
-        <header class="text-center mb-8">
+        <header class="text-center mb-4">
             <h1 class="text-2xl sm:text-3xl font-bold text-gray-900">iGaming 소셜 미디어 분석</h1>
             <p class="mt-2 text-sm sm:text-base text-gray-600">경쟁 환경 및 콘텐츠 참여도 분석</p>
         </header>
 
-        <div class="bg-white p-4 rounded-xl shadow-lg mb-6">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div>
-                    <label for="industryFilter" class="block text-sm font-medium text-gray-700 mb-1">업종 선택</label>
-                    <select id="industryFilter" class="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
-                        <option value="All">전체</option>
-                    </select>
+        <div class="mb-6 border-b border-gray-200">
+            <nav class="-mb-px flex space-x-6 justify-center" aria-label="Tabs">
+                <button id="tab-dashboard" class="tab-btn active border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-base">
+                    대시보드
+                </button>
+                <button id="tab-report" class="tab-btn border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-base">
+                    주간 리포트
+                </button>
+            </nav>
+        </div>
+        
+        <div id="dashboard-view">
+            <div class="bg-white p-4 rounded-xl shadow-lg mb-6">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div>
+                        <label for="industryFilter" class="block text-sm font-medium text-gray-700 mb-1">업종 선택</label>
+                        <select id="industryFilter" class="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                            <option value="All">전체</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="searchCompany" class="block text-sm font-medium text-gray-700 mb-1">업체명 검색</label>
+                        <input type="text" id="searchCompany" placeholder="업체명 입력..." class="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                    </div>
+                    <div class="flex items-end">
+                        <button id="resetButton" class="w-full bg-gray-600 text-white px-4 py-2 rounded-md hover:bg-gray-700 transition">필터 초기화</button>
+                    </div>
                 </div>
-                <div>
-                    <label for="searchCompany" class="block text-sm font-medium text-gray-700 mb-1">업체명 검색</label>
-                    <input type="text" id="searchCompany" placeholder="업체명 입력..." class="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+            </div>
+            
+            <section id="kpi-overview" class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+                <div class="bg-white p-4 rounded-xl shadow-lg text-center">
+                    <h3 class="text-sm font-semibold text-gray-500">총 분석 업체</h3>
+                    <p id="totalCompanies" class="text-2xl sm:text-3xl font-bold text-blue-600 mt-1">0</p>
                 </div>
-                <div class="flex items-end">
-                    <button id="resetButton" class="w-full bg-gray-600 text-white px-4 py-2 rounded-md hover:bg-gray-700 transition">필터 초기화</button>
+                <div class="bg-white p-4 rounded-xl shadow-lg text-center">
+                    <h3 class="text-sm font-semibold text-gray-500">총 팔로워</h3>
+                    <p id="totalFollowers" class="text-2xl sm:text-3xl font-bold text-blue-600 mt-1">0</p>
+                </div>
+                <div class="bg-white p-4 rounded-xl shadow-lg text-center col-span-2 sm:col-span-1">
+                    <h3 class="text-sm font-semibold text-gray-500">최고 성장 업체</h3>
+                    <p id="topGrowthCompany" class="text-lg sm:text-xl font-bold text-green-600 mt-1 truncate">-</p>
+                </div>
+                 <div class="bg-white p-4 rounded-xl shadow-lg text-center col-span-2 sm:col-span-1">
+                    <h3 class="text-sm font-semibold text-gray-500">최다 참여 게시물</h3>
+                    <p id="topPostCompany" class="text-lg sm:text-xl font-bold text-green-600 mt-1 leading-tight truncate">-</p>
+                </div>
+            </section>
+    
+            <main class="grid grid-cols-1 lg:grid-cols-5 gap-6 mb-8">
+                <div class="lg:col-span-3 bg-white p-4 rounded-xl shadow-lg">
+                    <h3 class="text-lg font-bold text-center mb-4">업체별 팔로워 수</h3>
+                    <div class="chart-container h-[350px] md:h-[400px]">
+                        <canvas id="followerChart"></canvas>
+                    </div>
+                </div>
+                <div class="lg:col-span-2 bg-white p-4 rounded-xl shadow-lg">
+                    <h3 class="text-lg font-bold text-center mb-4">업종 분포</h3>
+                    <div class="chart-container h-[300px] md:h-[400px]">
+                        <canvas id="industryChart"></canvas>
+                    </div>
+                </div>
+            </main>
+            
+            <section id="competitor-details">
+                 <h2 class="text-xl font-bold mb-4 border-l-4 border-blue-500 pl-3">업체별 상세 데이터 및 인기 게시물</h2>
+                  <p class="mb-4 text-gray-600 text-sm">아래 표에서 각 업체의 상세 데이터를 확인하고, 행을 클릭하여 인기 게시물을 펼쳐볼 수 있습니다.</p>
+                <div class="bg-white rounded-xl shadow-lg overflow-x-auto">
+                    <table class="w-full text-sm text-left text-gray-500 table-sortable">
+                        <thead class="text-xs text-gray-700 uppercase bg-gray-100">
+                            <tr>
+                                <th class="p-2 w-10"></th>
+                                <th scope="col" class="px-3 py-3 md:px-6" data-sort="name">업체명<span class="sort-indicator"></span></th>
+                                <th scope="col" class="px-3 py-3 md:px-6" data-sort="followers">팔로워<span class="sort-indicator"></span></th>
+                                <th scope="col" class="px-3 py-3 md:px-6" data-sort="growth">증감<span class="sort-indicator"></span></th>
+                            </tr>
+                        </thead>
+                        <tbody id="companyTableBody">
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </div>
+
+        <div id="report-view" class="hidden">
+             <div class="bg-white p-6 sm:p-8 rounded-xl shadow-lg report-section">
+                <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 text-center mb-2">주간 링크드인 동향 리포트</h2>
+                <p class="text-center text-gray-500 mb-10">(2025년 6월 3주차)</p>
+        
+                <div class="space-y-10 max-w-4xl mx-auto">
+                    <div>
+                        <h3 class="text-xl font-bold mb-4 border-l-4 border-blue-500 pl-4">시장 동향</h3>
+                        <ol class="list-decimal list-outside ml-5 space-y-4 text-gray-700 leading-relaxed">
+                            <li><strong>이탈리아 시장</strong>: 최근 이탈리아의 새로운 도박 라이센스 제도가 도입되면서, 기존 운영자들은 규제 준수에 대한 부담이 증가하고 있다. 이로 인해 신규 진입자들이 시장에 진입하기 어려워질 것으로 예상된다. 기존 업체들은 이 제도를 활용하여 경쟁력을 강화할 수 있는 기회를 모색해야 한다.</li>
+                            <li><strong>브라질 및 LATAM 시장</strong>: 브라질은 LATAM 지역에서 가장 빠르게 성장하는 시장으로 부상하고 있다. 현지화된 콘텐츠와 맞춤형 마케팅 전략이 성공의 열쇠로 작용하고 있으며, 많은 업체들이 이 지역에 집중하고 있다. 특히, Infingame과 같은 업체들은 LATAM 시장에서의 성장을 위해 현지 파트너십을 강화하고 있다.</li>
+                            <li><strong>필리핀 시장</strong>: 필리핀에서는 온라인 도박에 대한 규제가 강화되고 있으며, 이는 시장의 투명성을 높이는 데 기여하고 있다. 그러나 이러한 규제가 신규 진입자들에게는 장벽으로 작용할 수 있어, 기존 운영자들은 규제 준수를 통해 시장 점유율을 유지해야 한다.</li>
+                        </ol>
+                    </div>
+                    
+                    <div>
+                         <h3 class="text-xl font-bold mb-4 border-l-4 border-green-500 pl-4">신규 게임 트렌드</h3>
+                         <ol class="list-decimal list-outside ml-5 space-y-4 text-gray-700 leading-relaxed">
+                            <li><strong>Gates of Olympus Super Scatter (Pragmatic Play)</strong>: 신화적인 테마를 바탕으로 한 슬롯 게임으로, 플레이어들에게 높은 보상과 흥미로운 기능을 제공한다.</li>
+                            <li><strong>Henry The Ape (Push Gaming)</strong>: 고전적인 힙합 테마를 접목한 슬롯 게임으로, 독창적인 디자인과 사운드트랙으로 주목받고 있다. (관련 링크: push gaming)</li>
+                            <li><strong>Elysian Gold (ELK Studios)</strong>: 신화적인 배경을 가진 슬롯으로, 다양한 보너스 기능과 높은 배당률이 특징이다. (관련 링크: elk studios)</li>
+                         </ol>
+                    </div>
+
+                    <div>
+                         <h3 class="text-xl font-bold mb-4 border-l-4 border-purple-500 pl-4">파트너십</h3>
+                         <ol class="list-decimal list-outside ml-5 space-y-4 text-gray-700 leading-relaxed">
+                            <li><strong>EGT Digital과 Paynetics</strong>: EGT Digital은 Paynetics와의 파트너십을 통해 결제 보안을 강화하고 실시간 거래를 지원하는 API를 통합했다. 이로 인해 고객의 안전한 결제 경험을 보장할 수 있게 되었다. 이는 특히 LATAM 시장에서의 성장을 촉진할 것으로 기대된다. (관련 링크: egt digital)</li>
+                            <li><strong>Playtech과 MSC Cruises</strong>: Playtech은 MSC Cruises와 파트너십을 체결하여 크루즈 선박에서 스포츠 베팅 경험을 제공하기 시작했다. 이 파트너십은 Playtech의 글로벌 입지를 확장하는 데 기여할 것으로 보인다. (관련 링크: playtech)</li>
+                            <li><strong>Amigo Gaming과 TotoGaming</strong>: Amigo Gaming은 TotoGaming과의 협력을 통해 새로운 슬롯 게임을 출시할 예정이다. 이 파트너십은 두 회사의 시장 점유율을 높이는 데 기여할 것으로 예상된다. (관련 링크: amigo gaming)</li>
+                         </ol>
+                    </div>
+
+                    <div>
+                         <h3 class="text-xl font-bold mb-4 border-l-4 border-yellow-500 pl-4">수상 및 후보 지명</h3>
+                         <ol class="list-decimal list-outside ml-5 space-y-4 text-gray-700 leading-relaxed">
+                            <li><strong>Games Global</strong>: EGR B2B Awards 2025에서 'Employer of the Year', 'Slot Supplier', 'Crash Games Supplier', 'Aggregator Platform' 부문에 후보로 지명되었다. 이는 Games Global의 혁신성과 팀의 헌신을 인정받은 결과이다. (관련 링크: games global)</li>
+                            <li><strong>Digitain</strong>: Women in Gaming Awards 2025에서 'Inspiration of the Year'를 수상한 Aida Vardanyan의 성과가 주목받고 있다. 이는 회사의 다양성과 포용성을 강화하는 데 기여하고 있다. (관련 링크: digitain)</li>
+                            <li><strong>Betsson Group</strong>: SBC Awards Europe 2025에서 'Best Affiliates Programme'과 'Casino Operator of the Year'를 수상하며, 업계에서의 입지를 더욱 확고히 했다. (관련 링크: betsson group)</li>
+                         </ol>
+                    </div>
+
+                    <div>
+                         <h3 class="text-xl font-bold mb-4 border-l-4 border-red-500 pl-4">글로벌 컨퍼런스 & 행사</h3>
+                         <ol class="list-decimal list-outside ml-5 space-y-4 text-gray-700 leading-relaxed">
+                            <li><strong>SBC Summit Malta</strong>: SBC Summit에서 다양한 업체들이 새로운 파트너십을 체결하고, 업계의 최신 동향에 대해 논의했다. 이 행사에서는 특히 LATAM 시장에 대한 관심이 높았다.</li>
+                            <li><strong>iGB Live 2025</strong>: iGB Live에서 여러 업체들이 혁신적인 제품과 서비스를 선보이며, 업계 관계자들과의 네트워킹 기회를 가졌다. 이 행사에서의 피드백은 향후 제품 개발에 중요한 영향을 미칠 것으로 보인다.</li>
+                         </ol>
+                    </div>
+
+                     <div>
+                         <h3 class="text-xl font-bold mb-4 border-l-4 border-gray-500 pl-4">주요 키워드 인사이트</h3>
+                         <ul class="list-disc list-outside ml-5 space-y-4 text-gray-700 leading-relaxed">
+                            <li>LATAM 시장의 성장 가능성이 높아지고 있으며, 현지화된 전략이 성공의 열쇠로 작용하고 있다.</li>
+                            <li>규제 준수는 기존 운영자들에게는 기회가 될 수 있지만, 신규 진입자에게는 장벽으로 작용할 수 있다.</li>
+                         </ul>
+                         <p class="mt-6 text-sm text-gray-600">이 보고서는 최신 시장 동향과 파트너십, 신규 게임 트렌드에 대한 통찰을 제공하며, 앞으로의 전략 수립에 유용할 것으로 기대된다.</p>
+                    </div>
                 </div>
             </div>
         </div>
-        
-        <section id="kpi-overview" class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-            <div class="bg-white p-4 rounded-xl shadow-lg text-center">
-                <h3 class="text-sm font-semibold text-gray-500">총 분석 업체</h3>
-                <p id="totalCompanies" class="text-2xl sm:text-3xl font-bold text-blue-600 mt-1">0</p>
-            </div>
-            <div class="bg-white p-4 rounded-xl shadow-lg text-center">
-                <h3 class="text-sm font-semibold text-gray-500">총 팔로워</h3>
-                <p id="totalFollowers" class="text-2xl sm:text-3xl font-bold text-blue-600 mt-1">0</p>
-            </div>
-            <div class="bg-white p-4 rounded-xl shadow-lg text-center col-span-2 sm:col-span-1">
-                <h3 class="text-sm font-semibold text-gray-500">최고 성장 업체</h3>
-                <p id="topGrowthCompany" class="text-lg sm:text-xl font-bold text-green-600 mt-1 truncate">-</p>
-            </div>
-             <div class="bg-white p-4 rounded-xl shadow-lg text-center col-span-2 sm:col-span-1">
-                <h3 class="text-sm font-semibold text-gray-500">최다 참여 게시물</h3>
-                <p id="topPostCompany" class="text-lg sm:text-xl font-bold text-green-600 mt-1 leading-tight truncate">-</p>
-            </div>
-        </section>
-
-
-        <main class="grid grid-cols-1 lg:grid-cols-5 gap-6 mb-8">
-            <div class="lg:col-span-3 bg-white p-4 rounded-xl shadow-lg">
-                <h3 class="text-lg font-bold text-center mb-4">업체별 팔로워 수</h3>
-                <div class="chart-container h-[350px] md:h-[400px]">
-                    <canvas id="followerChart"></canvas>
-                </div>
-            </div>
-            <div class="lg:col-span-2 bg-white p-4 rounded-xl shadow-lg">
-                <h3 class="text-lg font-bold text-center mb-4">업종 분포</h3>
-                <div class="chart-container h-[300px] md:h-[400px]">
-                    <canvas id="industryChart"></canvas>
-                </div>
-            </div>
-        </main>
-        
-        <section id="competitor-details">
-             <h2 class="text-xl font-bold mb-4 border-l-4 border-blue-500 pl-3">업체별 상세 데이터 및 인기 게시물</h2>
-              <p class="mb-4 text-gray-600 text-sm">아래 표에서 각 업체의 상세 데이터를 확인하고, 행을 클릭하여 인기 게시물을 펼쳐볼 수 있습니다.</p>
-            <div class="bg-white rounded-xl shadow-lg overflow-x-auto">
-                <table class="w-full text-sm text-left text-gray-500 table-sortable">
-                    <thead class="text-xs text-gray-700 uppercase bg-gray-100">
-                        <tr>
-                            <th class="p-2 w-10"></th>
-                            <th scope="col" class="px-3 py-3 md:px-6" data-sort="name">업체명<span class="sort-indicator"></span></th>
-                            <th scope="col" class="px-3 py-3 md:px-6" data-sort="followers">팔로워<span class="sort-indicator"></span></th>
-                            <th scope="col" class="px-3 py-3 md:px-6" data-sort="growth">증감<span class="sort-indicator"></span></th>
-                        </tr>
-                    </thead>
-                    <tbody id="companyTableBody">
-                    </tbody>
-                </table>
-            </div>
-        </section>
     </div>
 
     <script>
@@ -156,7 +237,7 @@
             ]},
             { id: 'bgaming', name: 'BGaming', industry: 'CP/어그리게이터', followers: 716296, growth: 171, posts: [
                 { content: 'We thought — why not switch things up at iGB L!VE London by inviting you straight into the BGaming Office instead of a noisy booth?...', hashtags: '#SG12,, #igblive2025, #BGaming', likes: 26, comments: 2, shares: 0 },
-                { content: 'Kick off the sports summer with BGaming’s new 𝐅𝐨𝐨𝐭𝐛𝐚𝐥𝐥 𝐏𝐥𝐢𝐧 𝐨! ⚽...', hashtags: '', likes: 26, comments: 0, shares: 1 },
+                { content: 'Kick off the sports summer with BGaming’s new 𝐅𝐨�𝐭𝐛𝐚𝐥𝐥 𝐏𝐥𝐢𝐧?𝐨! ⚽...', hashtags: '', likes: 26, comments: 0, shares: 1 },
                 { content: 'Time for a blooming release from BGaming: 𝐌𝐲𝐬𝐭𝐞𝐫𝐲 𝐆𝐚𝐫𝐝𝐞𝐧! 💐...', hashtags: '', likes: 25, comments: 1, shares: 1 }
             ]},
             { id: 'lightWonder', name: 'Light & Wonder Spark', industry: '어그리게이터', followers: 3834, growth: 3, posts: [
@@ -207,6 +288,7 @@
         document.addEventListener('DOMContentLoaded', () => {
             const processedData = companyData.map(c => ({...c, totalEngagement: c.posts.reduce((acc, p) => acc + p.likes + p.comments + p.shares, 0)}));
             setupFilters(processedData);
+            setupTabs();
             
             document.getElementById('industryFilter').addEventListener('change', () => updateDashboard(processedData));
             document.getElementById('searchCompany').addEventListener('input', () => updateDashboard(processedData));
@@ -230,13 +312,35 @@
             });
             
             updateDashboard(processedData);
-             window.addEventListener('resize', () => updateDashboard(processedData));
+            window.addEventListener('resize', () => updateDashboard(processedData));
         });
+
+        function setupTabs() {
+            const tabDashboard = document.getElementById('tab-dashboard');
+            const tabReport = document.getElementById('tab-report');
+            const dashboardView = document.getElementById('dashboard-view');
+            const reportView = document.getElementById('report-view');
+            const tabs = [tabDashboard, tabReport];
+
+            tabDashboard.addEventListener('click', () => {
+                dashboardView.classList.remove('hidden');
+                reportView.classList.add('hidden');
+                tabDashboard.classList.add('active');
+                tabReport.classList.remove('active');
+            });
+
+            tabReport.addEventListener('click', () => {
+                dashboardView.classList.add('hidden');
+                reportView.classList.remove('hidden');
+                tabReport.classList.add('active');
+                tabDashboard.classList.remove('active');
+            });
+        }
+
 
         function setupFilters(data) {
             const industries = [...new Set(data.map(c => c.industry))].sort();
             const industryFilter = document.getElementById('industryFilter');
-             // Clear previous options except the first one
             industryFilter.innerHTML = '<option value="All">전체</option>';
             industries.forEach(i => {
                 const option = document.createElement('option');
@@ -415,6 +519,7 @@
                 `;
                 
                 const detailRow = document.createElement('tr');
+
                 detailRow.className = 'post-details';
                 detailRow.id = `posts-${company.id}`;
                 
@@ -463,3 +568,4 @@
     </script>
 </body>
 </html>
+�
