@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>iGaming 규제 현황 대시보드</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: #f3f4f6; /* body 전체에 배경색 적용 */
+        }
+        .summary-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .summary-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        .category-card {
+            transition: all 0.3s ease-in-out;
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .category-card.hidden {
+            opacity: 0;
+            transform: translateY(20px);
+            height: 0;
+            padding: 0;
+            margin: 0;
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container mx-auto p-4 md:p-8">
+        <!-- 헤더 -->
+        <header class="mb-8">
+            <h1 class="text-3xl md:text-4xl font-bold text-gray-900 mb-2">iGaming 규제 현황 대시보드</h1>
+            <p class="text-gray-600">UK, Italy, Germany 최신 규제 동향을 비교 분석합니다.</p>
+        </header>
+
+        <!-- 요약 리포트 -->
+        <section class="mb-10">
+            <h2 class="text-2xl font-bold mb-4 flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
+                최근 주요 업데이트 (2025년 5-6월)
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- UK Summary -->
+                <div class="summary-card bg-white p-6 rounded-lg shadow-md border-l-4 border-red-500">
+                    <div class="flex items-center mb-3">
+                        <span class="text-2xl mr-3">🇬🇧</span>
+                        <h3 class="text-xl font-bold text-gray-800">영국 (UK)</h3>
+                    </div>
+                    <ul class="space-y-2 text-gray-700">
+                        <li class="flex items-start"><span class="font-bold text-red-600 mr-2 mt-1">●</span><div><strong class="font-semibold">온라인 슬롯 금액 제한 (6월):</strong> 25세 이상 £5, 18-24세 £2로 최대 베팅액을 제한하여 젊은 층 보호를 강화했습니다.</div></li>
+                        <li class="flex items-start"><span class="font-bold text-red-600 mr-2 mt-1">●</span><div><strong class="font-semibold">재정적 취약성 확인 (5월):</strong> 12개월간 순손실 £500 초과 시 신용평가기관 데이터를 활용한 마찰 없는 재정 확인 절차를 도입했습니다.</div></li>
+                    </ul>
+                </div>
+                <!-- Germany Summary -->
+                <div class="summary-card bg-white p-6 rounded-lg shadow-md border-l-4 border-yellow-500">
+                    <div class="flex items-center mb-3">
+                        <span class="text-2xl mr-3">🇩🇪</span>
+                        <h3 class="text-xl font-bold text-gray-800">독일 (Germany)</h3>
+                    </div>
+                    <ul class="space-y-2 text-gray-700">
+                       <li class="flex items-start"><span class="font-bold text-yellow-600 mr-2 mt-1">●</span><div><strong class="font-semibold">불법 운영사 차단 강화 (6월):</strong> 규제 기관(GGL)이 불법 iGaming 사이트에 대한 IP 및 결제 서비스 제공업체 차단 명령을 적극적으로 집행하며 블랙마켓 단속을 강화했습니다.</div></li>
+                    </ul>
+                </div>
+                 <!-- Italy Summary -->
+                <div class="summary-card bg-white p-6 rounded-lg shadow-md border-l-4 border-green-500">
+                    <div class="flex items-center mb-3">
+                        <span class="text-2xl mr-3">🇮🇹</span>
+                        <h3 class="text-xl font-bold text-gray-800">이탈리아 (Italy)</h3>
+                    </div>
+                    <ul class="space-y-2 text-gray-700">
+                        <li class="flex items-start"><span class="font-bold text-green-600 mr-2 mt-1">●</span><div><strong class="font-semibold">광고 규제 완화 적용 (4월):</strong> 5-6월 중 큰 변경은 없었으나, 4월부터 '존엄 법령'이 폐지되고 세금 납부를 조건으로 한 광고/후원이 허용되며 시장에 큰 변화가 시작되었습니다.</div></li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- 컨트롤 패널 -->
+        <div class="bg-white p-4 rounded-lg shadow-md mb-8 flex flex-col md:flex-row justify-between items-center sticky top-4 z-10">
+            <h2 class="text-xl font-bold text-gray-800 mb-4 md:mb-0">규제 항목별 비교</h2>
+            <div class="flex items-center space-x-4">
+                <label for="country-select-page" class="text-sm font-medium">국가 선택:</label>
+                <select id="country-select-page" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                    <option value="all" selected>전체 비교</option>
+                    <option value="UK">🇬🇧 영국 (UK)</option>
+                    <option value="Italy">🇮� 이탈리아 (Italy)</option>
+                    <option value="Germany">🇩🇪 독일 (Germany)</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- 대시보드 그리드 -->
+        <div id="dashboard-grid-page" class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
+            <!-- 카테고리 카드가 동적으로 여기에 삽입됩니다. -->
+        </div>
+    </div>
+
+    <script>
+        const complianceData = {
+            "광고/마케팅": [
+                { country: "UK", item: "제한된 문구 사용", details: "“무료”, “보장된 수익”, “위험 없음” 등 표현 금지", status: "적용됨", date: "지속적" },
+                { country: "UK", item: "SNS 홍보 기준", details: "유튜브·TikTok 인플루언서 마케팅은 KYC 완료 성인만 대상 허용", status: "강화됨", date: "2024-11" },
+                { country: "Italy", item: "광고 규제 완화", details: "'존엄 법령' 폐지. 세금 납부 조건으로 후원 및 특정 광고 허용", status: "적용됨", date: "2025-04" },
+                { country: "Germany", item: "광고 내용 제한", details: "정확한 정보만 명시. 오해의 소지가 있는 문구 금지.", status: "적용됨", date: "기존" },
+                { country: "Germany", item: "타겟 제한", details: "광고는 18세 이상 성인에게만 노출 가능", status: "강화됨", date: "2024-11" },
+            ],
+            "게임 디자인": [
+                { country: "UK", item: "슬롯 회전 속도 제한", details: "Spin 간 최소 2.5초 이상 간격 적용", status: "유지", date: "기존" },
+                { country: "UK", item: "Auto-play 금지", details: "슬롯 내 자동 회전 기능 전면 금지", status: "적용됨", date: "2024-10" },
+                { country: "UK", item: "혼란 유발 연출 금지", details: "손실을 승리처럼 연출하는 UI/음향 금지", status: "적용됨", date: "2024-11" },
+                { country: "Italy", item: "슬롯 회전 속도 제한", details: "최소 2.5초 이상 (EU 일반 기준 동일)", status: "적용됨", date: "기존" },
+                { country: "Italy", item: "Auto-play 기능 금지", details: "슬롯 자동회전 기능 금지, 사용자 수동 조작 필수", status: "적용됨", date: "2024-10" },
+                { country: "Italy", item: "손실을 승리처럼 표현하는 효과 제한", details: "감정 자극 효과(예: 손실 후 불꽃, 코인 등) 제한", status: "강화됨", date: "2024-11" },
+                { country: "Germany", item: "Spin 속도 제한 (5초 룰)", details: "슬롯 회전 시작과 결과 도출 사이에 평균 5초 이상 소요", status: "적용됨", date: "기존" },
+                { country: "Germany", item: "Auto-play 기능 금지", details: "슬롯 내 자동 플레이 및 연속적인 스핀 기능 금지", status: "적용됨", date: "2024-10" },
+                { country: "Germany", item: "Jackpot / Loot Box 규정", details: "프로그레시브 잭팟 및 랜덤박스 형태의 게임 금지", status: "강화됨", date: "2024-12" },
+            ],
+            "고객 보호": [
+                { country: "UK", item: "온라인 슬롯 금액 제한", details: "18-24세 £2, 25세 이상 £5로 최대 베팅 금액 제한", status: "적용됨", date: "2025-06" },
+                { country: "UK", item: "고위험 유저 경고", details: "시간/베팅 초과 시 팝업 또는 고객 접촉 절차 필요", status: "강화됨", date: "2025-01" },
+                { country: "Italy", item: "Loss Limit 설정", details: "유저가 직접 일일/주간 손실 한도 설정 가능", status: "필수", date: "기존" },
+                { country: "Italy", item: "High-risk 유저 경고", details: "일정 시간 또는 베팅량 초과 시 팝업, 상담 연결 등 즉시 반응 체계 필요", status: "강화됨", date: "2025-01" },
+                { country: "Germany", item: "월 통합 입금 한도 (€1,000)", details: "모든 플랫폼 합산 월 €1,000 입금 한도 강제 (LUGAS)", status: "필수", date: "기존" },
+                { country: "Germany", item: "고위험 유저 모니터링", details: "고위험 가능성 유저는 게임 패턴 자동 분석 및 개입 절차 마련", status: "강화됨", date: "2025-01" },
+            ],
+            "AML/KYC": [
+                { country: "UK", item: "재정적 취약성 확인", details: "12개월간 순손실 £500 초과 시 마찰 없는 재정 확인", status: "적용됨", date: "2025-05" },
+                { country: "UK", item: "고액 입금자 관리", details: "£1,000 이상 입금 시 Source of Fund 요구 필수", status: "강화됨", date: "2025-02" },
+                { country: "Italy", item: "고액 입금자 확인", details: "누적 입금 1,000 EUR 초과 시 자금 출처 요구(SoF)", status: "강화됨", date: "2025-02" },
+                { country: "Germany", item: "Source of Funds 검사", details: "고액 입금자의 자금 출처 증빙 및 신원 확인 강화", status: "강화됨", date: "2025-02" },
+            ],
+            "게임 타입 관련": [
+                { country: "UK", item: "실시간 손실 알림", details: "일정 시간 손실 누적 시 팝업 또는 세션 인터럽트 필요", status: "강화됨", date: "2025-03" },
+                { country: "Italy", item: "Crash 등 고변동 실시간 게임 제한", details: "session control, 결과 명시 UI, 반복 플레이 제한 필수", status: "강화됨", date: "2025-01" },
+                { country: "Germany", item: "Crash 유형 시스템 규제", details: "고변동성 실시간 게임에 대한 엄격한 보안 및 공정성 검토 필수", status: "강화됨", date: "2025-01" },
+            ],
+            "규제기관": [
+                { country: "UK", item: "UKGC", details: "원격 도박사업자에 대한 주요 규제 기구", status: "유지", date: "-" },
+                { country: "Italy", item: "ADM", details: "이탈리아 도박 산업을 감독하는 규제 기관", status: "유지", date: "-" },
+                { country: "Germany", item: "GGL", details: "독일 전체 16개 주를 총괄하는 연방 도박 규제 기관", status: "유지", date: "-" },
+                { country: "Germany", item: "불법 운영사 IP/결제 차단", details: "GGL의 IP 및 결제 서비스 제공업체 차단 명령을 통한 적극적인 블랙마켓 단속", status: "강화됨", date: "2025-06" },
+            ]
+        };
+
+        const categoryIcons = {
+            "광고/마케팅": `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.136a1.76 1.76 0 011.17-2.174l5.36-1.664zM16 12.582V19.24a1.76 1.76 0 003.417.592l2.147-6.136a1.76 1.76 0 00-1.17-2.174l-5.36-1.664z" /></svg>`,
+            "게임 디자인": `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>`,
+            "고객 보호": `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 20.944A12.02 12.02 0 0012 22a12.02 12.02 0 009-1.056c.343-.344.65-.724.924-1.116l-2.812-2.812m0 0l-2.812-2.812m2.812 2.812L19 12M9 12l2 2 4-4" /></svg>`,
+            "AML/KYC": `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" /></svg>`,
+            "게임 타입 관련": `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 4a2 2 0 114 0v1a1 1 0 001 1h3a1 1 0 011 1v3a1 1 0 01-1 1h-1a2 2 0 100 4h1a1 1 0 011 1v3a1 1 0 01-1 1h-3a1 1 0 01-1-1v-1a2 2 0 10-4 0v1a1 1 0 01-1 1H7a1 1 0 01-1-1v-3a1 1 0 00-1-1H4a2 2 0 110-4h1a1 1 0 001-1V7a1 1 0 011-1h3a1 1 0 001-1V4z" /></svg>`,
+            "규제기관": `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" /></svg>`,
+        };
+
+        const getStatusChip = (status) => {
+            switch (status) {
+                case '강화됨': return `<span class="text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full bg-red-100 text-red-800">${status}</span>`;
+                case '적용됨': return `<span class="text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full bg-blue-100 text-blue-800">${status}</span>`;
+                case '필수': return `<span class="text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full bg-yellow-100 text-yellow-800">${status}</span>`;
+                case '권장': return `<span class="text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full bg-green-100 text-green-800">${status}</span>`;
+                case '유지': return `<span class="text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full bg-gray-100 text-gray-800">${status}</span>`;
+                default: return '';
+            }
+        };
+
+        const getCountryFlag = (country) => {
+            switch (country) {
+                case 'UK': return '🇬🇧';
+                case 'Italy': return '🇮🇹';
+                case 'Germany': return '🇩🇪';
+                default: return '';
+            }
+        };
+        
+        const dashboardGrid = document.getElementById('dashboard-grid-page');
+        const countrySelect = document.getElementById('country-select-page');
+
+        function renderDashboard(filter = 'all') {
+            if (!dashboardGrid) return;
+            dashboardGrid.innerHTML = '';
+            
+            Object.keys(complianceData).forEach(category => {
+                const items = complianceData[category].filter(item => filter === 'all' || item.country === filter);
+
+                if (items.length > 0) {
+                    const categoryCard = document.createElement('div');
+                    categoryCard.className = 'category-card bg-white p-6 rounded-lg shadow-md';
+                    
+                    let itemsHtml = '';
+                    items.forEach(item => {
+                        itemsHtml += `
+                            <div class="py-3 border-b border-gray-200 last:border-b-0">
+                                <div class="flex justify-between items-start mb-1">
+                                    <h4 class="font-bold text-gray-800 flex items-center">
+                                        ${filter === 'all' ? `<span class="text-xl mr-2">${getCountryFlag(item.country)}</span>` : ''}
+                                        ${item.item}
+                                    </h4>
+                                    <div class="flex-shrink-0 ml-2">
+                                       ${getStatusChip(item.status)}
+                                    </div>
+                                </div>
+                                <p class="text-sm text-gray-600 mb-2">${item.details}</p>
+                                <p class="text-xs text-right text-gray-500 font-medium">변경일: ${item.date}</p>
+                            </div>
+                        `;
+                    });
+
+                    categoryCard.innerHTML = `
+                        <div class="flex items-center text-blue-600 mb-4">
+                            ${categoryIcons[category] || ''}
+                            <h3 class="text-xl font-bold ml-3 text-gray-900">${category}</h3>
+                        </div>
+                        <div class="space-y-2">
+                            ${itemsHtml}
+                        </div>
+                    `;
+                    dashboardGrid.appendChild(categoryCard);
+                }
+            });
+        }
+
+        if (countrySelect) {
+            countrySelect.addEventListener('change', (e) => {
+                renderDashboard(e.target.value);
+            });
+        }
+
+        // 초기 렌더링
+        renderDashboard();
+    </script>
+</body>
+</html>
+�
